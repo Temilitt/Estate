@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: #FDFBF7;
+    color: #0C1F0E;
+    overflow-x: hidden;
+  }
+}
+
+@layer components {
+
+  .btn-primary {
+    @apply bg-green-800 text-cream-100 px-8 py-4 text-sm tracking-widest uppercase font-medium transition-all duration-300 hover:bg-green-700 hover:shadow-lg inline-block;
+  }
+
+  .btn-outline {
+    @apply border border-green-800 text-green-800 px-8 py-4 text-sm tracking-widest uppercase font-medium transition-all duration-300 hover:bg-green-800 hover:text-cream-100 inline-block;
+  }
+
+  .btn-sand {
+    @apply bg-sand-400 text-white px-8 py-4 text-sm tracking-widest uppercase font-medium transition-all duration-300 hover:bg-sand-500 inline-block;
+  }
+
+  .section-tag {
+    @apply text-sand-400 text-xs tracking-[4px] uppercase font-body flex items-center gap-3 mb-4;
+  }
+
+  .section-tag::before {
+    content: '';
+    display: inline-block;
+    width: 28px;
+    height: 1px;
+    background-color: #A89260;
+  }
+
+  .section-title {
+    @apply font-display text-green-950 leading-tight;
+    font-size: clamp(32px, 4vw, 52px);
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: #2D7A33;
+  }
+
+  .prop-card {
+    @apply bg-white overflow-hidden transition-all duration-500 hover:shadow-2xl cursor-pointer;
+  }
+
+  .nav-link {
+    @apply text-xs tracking-[2.5px] uppercase text-green-950 hover:text-green-600 transition-colors duration-300 font-body;
+  }
+
+  .divider {
+    @apply w-full h-px bg-sand-200 my-2;
+  }
+}
+
+@layer utilities {
+  .font-display { font-family: 'Playfair Display', serif; }
+  .font-body    { font-family: 'DM Sans', sans-serif; }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.form-label {
+  @apply block text-[10px] tracking-[2px] uppercase text-sand-400 mb-2;
+}
+
+.form-input {
+  @apply w-full bg-white border border-sand-200 px-4 py-3 text-sm text-green-950 focus:outline-none focus:border-green-700 font-body transition-colors;
+}
