@@ -1,9 +1,47 @@
-const dotenv     = require('dotenv')
-const connectDB  = require('./config/db')
-const Property   = require('./models/Property')
+const dotenv   = require('dotenv')
+const mongoose = require('mongoose')
+const Property = require('./models/Property')
 
 dotenv.config()
-connectDB()
+mongoose.set('bufferCommands', false)
+
+const cloudinary = 'https://res.cloudinary.com/doqniwpta/image/upload'
+
+const img = {
+  apart1:     `${cloudinary}/v1773133314/apart1_eq3asl.jpg`,
+  apart2:     `${cloudinary}/v1773133310/apart2_izkytw.jpg`,
+  apart3:     `${cloudinary}/v1773133438/apart3_uvs8oq.jpg`,
+  architect:  `${cloudinary}/v1773133317/architect_gtmzi6.jpg`,
+  commercial: `${cloudinary}/v1773133323/commercial_gecaqi.jpg`,
+  duplex:     `${cloudinary}/v1773133323/duplex_nhfity.jpg`,
+  duplex3:    `${cloudinary}/v1773133333/duplex3_rybtmy.jpg`,
+  im1:        `${cloudinary}/v1773133327/im1_pvk7fl.jpg`,
+  im2:        `${cloudinary}/v1773133327/im2_h7wyoo.jpg`,
+  im3:        `${cloudinary}/v1773133328/im3_znxsop.webp`,
+  int1:       `${cloudinary}/v1773133329/int1_w57mja.jpg`,
+  int2:       `${cloudinary}/v1773133336/int2_uzcr1n.jpg`,
+  int3:       `${cloudinary}/v1773133331/int3_g22nmz.jpg`,
+  int4:       `${cloudinary}/v1773133330/int4_vhgvop.jpg`,
+  int5:       `${cloudinary}/v1773133332/int5_zmkhli.webp`,
+  kitchen:    `${cloudinary}/v1773133336/kitchen_otuzyb.jpg`,
+  livingroom: `${cloudinary}/v1773133311/livingroom_teiy1t.avif`,
+  mansion:    `${cloudinary}/v1773133311/mansion_pxhf1f.jpg`,
+  myimg1:     `${cloudinary}/v1773133314/myimg1_xhiib4.jpg`,
+  penthhouse: `${cloudinary}/v1773133321/penthhouse_rsnytv.png`,
+  skyline:    `${cloudinary}/v1773133360/skyline_zykpfk.jpg`,
+  studio:     `${cloudinary}/v1773133319/studio_sisth1.jpg`,
+  swim:       `${cloudinary}/v1773133321/swim_fia6bk.avif`,
+  terra:      `${cloudinary}/v1773133321/terra_wljihp.jpg`,
+  villa:      `${cloudinary}/v1773133323/villa_y5pkxn.jpg`,
+}
+
+const agent = {
+  name:  'Temiloluwa Aderounmu',
+  role:  'Senior Property Consultant',
+  phone: '09016196558',
+  email: 'aderounmutemiloluwa2004@gmail.com',
+  image: `${cloudinary}/v1773133314/myimg1_xhiib4.jpg`,
+}
 
 const properties = [
   {
@@ -18,28 +56,9 @@ const properties = [
     tag: 'Featured',
     isFeatured: true,
     description: `This exceptional penthouse sits at the crown of one of Victoria Island's most prestigious addresses. Finished to an uncompromising standard, every detail has been considered — from the Italian marble flooring to the floor-to-ceiling windows that frame breathtaking ocean views.`,
-    features: [
-      'Ocean-facing wraparound terrace',
-      'Italian marble flooring throughout',
-      'Smart home automation system',
-      'Private elevator access',
-      'Chef-grade kitchen with island',
-      '2 dedicated parking spaces',
-      '24/7 security and concierge',
-      'Rooftop swimming pool access',
-      'Backup generator',
-      'Central air conditioning',
-    ],
-    images: ['/images/penthhouse.png', '/images/int1.jpg', '/images/int2.jpg'],
-    agent: {
-      name: 'Temiloluwa Aderounmu',
-      role: 'Senior Property Consultant',
-      phone: '09016196558',
-      email: 'aderounmutemiloluwa2004@gmail.com',
-      image: '/images/myimg1.jpg',
-    },
-    yearBuilt: 2022,
-    parking: 2,
+    features: ['Ocean-facing wraparound terrace','Italian marble flooring throughout','Smart home automation system','Private elevator access','Chef-grade kitchen with island','2 dedicated parking spaces','24/7 security and concierge','Rooftop swimming pool access','Backup generator','Central air conditioning'],
+    images: [img.penthhouse, img.int1, img.int2],
+    agent, yearBuilt: 2022, parking: 2,
   },
   {
     title: 'Skyline Residences',
@@ -52,23 +71,9 @@ const properties = [
     size: '210 sqm',
     isFeatured: true,
     description: `Skyline Residences offers a rare combination of modern design and practical living in the heart of Lekki Phase 1.`,
-    features: [
-      'Fitted kitchen with modern appliances',
-      'Ample natural light',
-      'Covered parking space',
-      '24-hour security',
-      'Backup power supply',
-    ],
-    images: ['/images/skyline.jpg', '/images/interior.jpg', '/images/kitchen.jpg'],
-    agent: {
-      name: 'Temiloluwa Aderounmu',
-      role: 'Senior Property Consultant',
-      phone: '09016196558',
-      email: 'aderounmutemiloluwa2004@gmail.com',
-      image: '/images/myimg1.jpg',
-    },
-    yearBuilt: 2020,
-    parking: 1,
+    features: ['Fitted kitchen with modern appliances','Ample natural light','Covered parking space','24-hour security','Backup power supply'],
+    images: [img.skyline, img.kitchen, img.int1],
+    agent, yearBuilt: 2020, parking: 1,
   },
   {
     title: 'The Garden Estate',
@@ -82,23 +87,9 @@ const properties = [
     tag: 'New',
     isFeatured: true,
     description: `Set within a beautifully landscaped estate in the diplomatic heart of Abuja.`,
-    features: [
-      'Private landscaped garden',
-      'All en-suite bedrooms',
-      'Boys quarters',
-      'Double garage',
-      'Solar power backup',
-    ],
-    images: ['/images/duplex.jpg', '/images/duplex3.jpg', '/images/int3.jpg'],
-    agent: {
-      name: 'Temiloluwa Aderounmu',
-      role: 'Senior Property Consultant',
-      phone: '09016196558',
-      email: 'aderounmutemiloluwa2004@gmail.com',
-      image: '/images/myimg1.jpg',
-    },
-    yearBuilt: 2023,
-    parking: 2,
+    features: ['Private landscaped garden','All en-suite bedrooms','Boys quarters','Double garage','Solar power backup'],
+    images: [img.duplex, img.duplex3, img.int3],
+    agent, yearBuilt: 2023, parking: 2,
   },
   {
     title: 'Harbour View Suites',
@@ -111,23 +102,9 @@ const properties = [
     size: '165 sqm',
     isFeatured: true,
     description: `Harbour View Suites is a sophisticated residential development in the rapidly growing Oniru district.`,
-    features: [
-      'Harbour views from living area',
-      'Secure underground parking',
-      'Swimming pool',
-      'Gym facility',
-      'Fibre internet ready',
-    ],
-    images: ['/images/apart2.jpg', '/images/livingroom.avif', '/images/int4.jpg'],
-    agent: {
-      name: 'Temiloluwa Aderounmu',
-      role: 'Senior Property Consultant',
-      phone: '09016196558',
-      email: 'aderounmutemiloluwa2004@gmail.com',
-      image: '/images/myimg1.jpg',
-    },
-    yearBuilt: 2021,
-    parking: 1,
+    features: ['Harbour views from living area','Secure underground parking','Swimming pool','Gym facility','Fibre internet ready'],
+    images: [img.apart2, img.livingroom, img.int4],
+    agent, yearBuilt: 2021, parking: 1,
   },
   {
     title: 'Asokoro Grand Villa',
@@ -141,24 +118,9 @@ const properties = [
     tag: 'Premium',
     isFeatured: true,
     description: `The Asokoro Grand Villa is one of Abuja's finest residential offerings.`,
-    features: [
-      'Private swimming pool',
-      'Home cinema room',
-      'Full staff quarters',
-      'Triple garage',
-      'Smart security system',
-      'Tennis court',
-    ],
-    images: ['/images/villa.jpg', '/images/swim.avif', '/images/int5.webp'],
-    agent: {
-      name: 'Temiloluwa Aderounmu',
-      role: 'Senior Property Consultant',
-      phone: '09016196558',
-      email: 'aderounmutemiloluwa2004@gmail.com',
-      image: '/images/myimg1.jpg',
-    },
-    yearBuilt: 2021,
-    parking: 3,
+    features: ['Private swimming pool','Home cinema room','Full staff quarters','Triple garage','Smart security system','Tennis court'],
+    images: [img.villa, img.swim, img.int5],
+    agent, yearBuilt: 2021, parking: 3,
   },
   {
     title: 'Ikoyi Luxury Flats',
@@ -171,23 +133,9 @@ const properties = [
     size: '140 sqm',
     isFeatured: true,
     description: `Experience the finest short-let accommodation in Lagos right in the heart of Ikoyi.`,
-    features: [
-      'Fully furnished to hotel standard',
-      'High-speed Wi-Fi',
-      'Smart TV with Netflix',
-      'Housekeeping included',
-      'Airport pickup available',
-    ],
-    images: ['/images/apart3.jpg', '/images/int2.jpg', '/images/kitchen.jpg'],
-    agent: {
-      name: 'Temiloluwa Aderounmu',
-      role: 'Senior Property Consultant',
-      phone: '09016196558',
-      email: 'aderounmutemiloluwa2004@gmail.com',
-      image: '/images/myimg1.jpg',
-    },
-    yearBuilt: 2019,
-    parking: 1,
+    features: ['Fully furnished to hotel standard','High-speed Wi-Fi','Smart TV with Netflix','Housekeeping included','Airport pickup available'],
+    images: [img.apart3, img.int2, img.kitchen],
+    agent, yearBuilt: 2019, parking: 1,
   },
   {
     title: 'Banana Island Court',
@@ -201,25 +149,9 @@ const properties = [
     tag: 'Premium',
     isFeatured: false,
     description: `An extraordinary mansion on Nigeria's most exclusive address.`,
-    features: [
-      'Waterfront access',
-      'Indoor swimming pool',
-      'Private gym',
-      'Wine cellar',
-      'Quadruple garage',
-      'Tennis court',
-      'Helipad ready',
-    ],
-    images: ['/images/mansion.jpg', '/images/swim.avif', '/images/int1.jpg'],
-    agent: {
-      name: 'Temiloluwa Aderounmu',
-      role: 'Senior Property Consultant',
-      phone: '09016196558',
-      email: 'aderounmutemiloluwa2004@gmail.com',
-      image: '/images/myimg1.jpg',
-    },
-    yearBuilt: 2023,
-    parking: 4,
+    features: ['Waterfront access','Indoor swimming pool','Private gym','Wine cellar','Quadruple garage','Tennis court','Helipad ready'],
+    images: [img.mansion, img.swim, img.int1],
+    agent, yearBuilt: 2023, parking: 4,
   },
   {
     title: 'Wuse II Business Hub',
@@ -230,23 +162,9 @@ const properties = [
     size: '320 sqm',
     isFeatured: false,
     description: `A premium commercial space in the most active business district in Abuja.`,
-    features: [
-      'Open plan floor plate',
-      '24-hour power supply',
-      'High-speed internet infrastructure',
-      'Secure car park',
-      'CCTV throughout',
-    ],
-    images: ['/images/commercial.jpg', '/images/architect.jpg'],
-    agent: {
-      name: 'Temiloluwa Aderounmu',
-      role: 'Senior Property Consultant',
-      phone: '09016196558',
-      email: 'aderounmutemiloluwa2004@gmail.com',
-      image: '/images/myimg1.jpg',
-    },
-    yearBuilt: 2018,
-    parking: 10,
+    features: ['Open plan floor plate','24-hour power supply','High-speed internet infrastructure','Secure car park','CCTV throughout'],
+    images: [img.commercial, img.architect],
+    agent, yearBuilt: 2018, parking: 10,
   },
   {
     title: 'Lekki Gardens Terrace',
@@ -260,22 +178,9 @@ const properties = [
     tag: 'New',
     isFeatured: false,
     description: `A brand new terrace home within a well-managed gated estate in Lekki Phase 2.`,
-    features: [
-      'Private rear courtyard',
-      'All-ensuite bedrooms',
-      'Estate swimming pool',
-      'Estate security',
-    ],
-    images: ['/images/terra.jpg', '/images/interior.jpg', '/images/int3.jpg'],
-    agent: {
-      name: 'Temiloluwa Aderounmu',
-      role: 'Senior Property Consultant',
-      phone: '09016196558',
-      email: 'aderounmutemiloluwa2004@gmail.com',
-      image: '/images/myimg1.jpg',
-    },
-    yearBuilt: 2024,
-    parking: 1,
+    features: ['Private rear courtyard','All-ensuite bedrooms','Estate swimming pool','Estate security'],
+    images: [img.terra, img.kitchen, img.int3],
+    agent, yearBuilt: 2024, parking: 1,
   },
   {
     title: 'Gwarinpa Family Home',
@@ -288,22 +193,9 @@ const properties = [
     size: '280 sqm',
     isFeatured: false,
     description: `A spacious and well-maintained family duplex in the heart of Gwarinpa.`,
-    features: [
-      'Large compound with garden',
-      'Boys quarters',
-      'Ample parking space',
-      'Borehole water supply',
-    ],
-    images: ['/images/im1.jpg', '/images/im2.jpg', '/images/im3.jpg'],
-    agent: {
-      name: 'Temiloluwa Aderounmu',
-      role: 'Senior Property Consultant',
-      phone: '09016196558',
-      email: 'aderounmutemiloluwa2004@gmail.com',
-      image: '/images/myimg1.jpg',
-    },
-    yearBuilt: 2017,
-    parking: 3,
+    features: ['Large compound with garden','Boys quarters','Ample parking space','Borehole water supply'],
+    images: [img.im1, img.im2, img.im3],
+    agent, yearBuilt: 2017, parking: 3,
   },
   {
     title: 'Eko Atlantic Apartment',
@@ -317,23 +209,9 @@ const properties = [
     tag: 'Featured',
     isFeatured: false,
     description: `Be part of Lagos's most ambitious urban development.`,
-    features: [
-      'Panoramic ocean views',
-      'Smart home system',
-      'Concierge service',
-      'Underground parking',
-      'Fibre internet',
-    ],
-    images: ['/images/apart1.jpg', '/images/int4.jpg', '/images/int5.webp'],
-    agent: {
-      name: 'Temiloluwa Aderounmu',
-      role: 'Senior Property Consultant',
-      phone: '09016196558',
-      email: 'aderounmutemiloluwa2004@gmail.com',
-      image: '/images/myimg1.jpg',
-    },
-    yearBuilt: 2023,
-    parking: 2,
+    features: ['Panoramic ocean views','Smart home system','Concierge service','Underground parking','Fibre internet'],
+    images: [img.apart1, img.int4, img.int5],
+    agent, yearBuilt: 2023, parking: 2,
   },
   {
     title: 'Jabi Lake View Studio',
@@ -346,32 +224,23 @@ const properties = [
     size: '65 sqm',
     isFeatured: false,
     description: `A beautifully designed studio apartment overlooking the serene Jabi Lake.`,
-    features: [
-      'Lake-facing balcony',
-      'Fully equipped kitchenette',
-      'High-speed Wi-Fi',
-      'Work desk',
-      '24-hour power',
-    ],
-    images: ['/images/studio.jpg', '/images/kitchen.jpg', '/images/int2.jpg'],
-    agent: {
-      name: 'Temiloluwa Aderounmu',
-      role: 'Senior Property Consultant',
-      phone: '09016196558',
-      email: 'aderounmutemiloluwa2004@gmail.com',
-      image: '/images/myimg1.jpg',
-    },
-    yearBuilt: 2020,
-    parking: 1,
+    features: ['Lake-facing balcony','Fully equipped kitchenette','High-speed Wi-Fi','Work desk','24-hour power'],
+    images: [img.studio, img.kitchen, img.int2],
+    agent, yearBuilt: 2020, parking: 1,
   },
 ]
 
 const seedDB = async () => {
   try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      serverSelectionTimeoutMS: 30000,
+      socketTimeoutMS: 45000,
+    })
+    console.log('MongoDB Connected')
     await Property.deleteMany()
     console.log('Old properties cleared')
     await Property.insertMany(properties)
-    console.log(' 12 properties seeded successfully')
+    console.log('✅ 12 properties seeded with Cloudinary images!')
     process.exit()
   } catch (error) {
     console.error(error)
